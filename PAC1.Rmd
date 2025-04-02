@@ -1,0 +1,318 @@
+---
+title: "PAC1 - Dades Òmiques"
+author: "Diego Montiel Ayora"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+## 1. Elecció del DataSet
+
+He escollit aquest dataset perquè m'ha sigut fàcil d'entendre i això em permetia centrar-me en l'anàlisi de dades i no dedicar molt de temps a entendre el dataset. A més, com a biòleg, em sembla interessant poder treballar en casos amb dades reals.
+
+## 2. Diferències entre ExpressionSet i SummarizedExperiment
+
+El ExpressionSet es sol fer servir en "array-based experiments" on les fileres són "features" (com gens o sondes) mentres que SummarizedExperiment en "sequencing-based experiments" on les fileres poden ser "GenomicRanges" (Kassambara 2025)^1^. Amb això en ment podem concluir que SummarizedExperiment ens permet treballar millor amb dades genòmiques ja que gràcies als "GenomicRanges" podem localitzar les dades al genoma. Tot i això també es pot adaptar perfectament al nostre estudi.
+
+## 3. Creació de l'objecte de classe SummarizedExperiment
+
+La creació de l'objecte de classe SummarizedExperiment m'ha portat molts intents i canvis per trobar el que crec que és la millor disposició per les dades. Per això explicaré pas a pas el raonament de tot el que he fet.
+
+```{r loading libraries, message=FALSE, warning=FALSE}
+# Carreguem les llibreries
+library(BiocManager)
+library(SummarizedExperiment)
+library(pcaMethods)
+library(dplyr)
+library(tidyr)
+library(purrr)
+library(tibble)
+library(ggplot2)
+library(tidyverse)
+```
+```{r loading files}
+# Pujem els arxius del dataset
+Data <- read.csv("DataValues_S013.csv", row.names = 1, check.names = FALSE)
+DataInfo <- read.csv("DataInfo_S013.csv", row.names = 1)
+aa_info <- read.csv("aaInfo.txt", row.names = 1)
+# Eliminem les columnes sense info
+Data$X <- NULL
+aa_info$X <- NULL
+```
+
+En primer lloc carrego les llibreries i els diferents arxius. Cal destacar 3 punts importants:
+
++ El DataValues i el DataInfo han estat cridat llegits amb "row.names = 1" per poder integrar directament la primera columna com nom de les fileres. 
+
++ El file "aaInfo.txt" és un document de text on s'ha copiat la "raw data" del document "AAInformation_S006.htm" del dataset.
+
++ Al "DataValue_S013.csv" i al "aaInfo.txt" hi ha una columna anomedada "X" que no conté res, per això la eliminem.
+
+```{r SE creation and colData}
+# Separem les característiques de cada "Subject" de les "features"
+col_data <- Data[, c("SURGERY", "AGE", "GENDER", "Group")]
+assay_data <- t(Data[, -c(1:5)])
+# Creem el objecte de classe SummarizedExperiment
+se <- SummarizedExperiment(
+  assays = list(counts = assay_data), # Assignem les features a la assays
+  colData = col_data # Assignem les característiques de cada "Subject" a la colData
+)
+```
+
+En segon lloc hem fet una "inverssió" del dataset, el índex dels "Subjects" passa de les fileres a les columnes i les diferents features de cada "Subject" de les fileres a les columnes. Això ho hem fet perquè les primeres columnes del Dara eren informació concreta de cada "Subject" com és la seva edat, gènere, grup... Aquestes coses les hem assignat a un colData de forma que per cada columna ("Subject") podem extreure la seva informació. Amb això ja hem creat el objecte de classe SummarizedExperiment però encara el podem refinar més.
+
+```{r timepoint for each feature}
+# Obtenim una tabla amb els noms de cada filera
+row_names <- rownames(se)
+# Obtenim el temps on es va recollir la mostra
+row_meta <- data.frame(
+  feature_id = row_names,
+  metabolite = gsub("_(T[0-9]+)$", "", row_names),
+  timepoint = gsub(".*_(T[0-9]+)$", "\\1", row_names),
+  stringsAsFactors = FALSE
+)
+```
+
+El dataset conté un contatge de diferents valors extret en diferent moments de temps (T0, T2, T4 i T5). Originariament la idea era separar cada mostra en assays diferents segons el moment del temps on s'hagués agafat (un assay per les mostres en T0, un altre per les de T2...) però en el T2 hi ha un metabòlit que no s'agafa en cap altre moment, el "lysoPC a C14 0". Això provocava que les diferents fileres de cada temps no coincidicin i per tant no es poguessin incloure en el mateix SummarizedExperiment. 
+
+Tot i així els diferents temps són importants per el posterior anàlisi de les dades així que hem creat una taula amb cada "feature" i el moment on es va obtenir.
+
+```{r addittion of aa_info and timepoint to the rowData}
+# Afegim la taula aa_info a la taula amb els timepoints
+row_meta_full <- merge(
+  row_meta,
+  aa_info,
+  by.x = "metabolite",
+  by.y = "Metabolite.abbreviation",
+  all.x = TRUE  # Keep all measured metabolites
+)
+# Canviem els nom d'un parell de columnes que són similars
+colnames(row_meta_full)[colnames(row_meta_full) == "Metabolite"] <- "full_metabolite_name"
+colnames(row_meta_full)[colnames(row_meta_full) == "metabolite"] <- "feature"
+# Afegim aquesta taula amb tota la info de les fileres al se com a rowData
+rownames(row_meta_full) <- row_meta_full$feature_id
+row_meta_full <- row_meta_full[rownames(se), ]
+rowData(se) <- row_meta_full
+```
+
+Un cop tenim la taula amb els timepoints hem afegit la taula de aa_info ja que contenia els noms dels diversos metabòlits que s'han datat en l'experiment. Amb aixó tenim una taula ("raw_meta_full") que conté molta informació sobre cadascuna de les nostres fileres. Ara podem fer el mateix que hem fet abans amb les columnes i afegir-ho com a "rowData".
+
+```{r Add DataInfo as metadata}
+metadata(se)$data_info <- DataInfo
+```
+
+Finalment afegim el fitxer data_info com a metadata del se ja que conté informació sobre el typus de cada variable. Ara ja tenim l'objecte creat i preparat pel séu anàlisi.
+
+## 4. Anàlisi exploratòria de les dades
+
+```{r se summary and different features}
+se
+# Creem una taula per veure differents features per timepoint
+table_timepoints <- table(rowData(se)$timepoint)
+table_timepoints
+```
+Com ja em vist abans en la creació del se, les nostres dades estan conformades principalment per un assay de 689 x 39, on els 689 són les features estudiades en diferents punts del temps i el 39 el numero de persones estudiades. A més, com sabem que les features estan repetides per diferents punts del temps hem creat una tabla per visualitzar quantes hi ha en realitat de diferents. Veiem que hi ha 172 menys en el T2 que hi ha una més (com ja s'ha comentat en el tercer apartat).
+
+```{r NA values}
+# Creem una funció per trobar els numero de valors buits o infinits que hi ha en el dataset
+check_SE_missing <- function(se) {
+  cat("Assay matrix:\n")
+  cat("  NA: ", sum(is.na(assay(se))), "\n")
+  cat("  NaN:", sum(is.nan(assay(se))), "\n")
+  cat("  Inf:", sum(is.infinite(assay(se))), "\n")
+  cat("  % of missing or inifinite values:", (sum(is.na(assay(se)))+sum(is.nan(assay(se)))+sum(is.infinite(assay(se))))/(689*39)*100, "\n")
+  cat("\nRowData NA count:", sum(is.na(as.data.frame(rowData(se)))), "\n")
+  cat("ColData NA count:", sum(is.na(as.data.frame(colData(se)))), "\n")
+}
+check_SE_missing(se) # Cridem la funció
+```
+
+La segona cosa que fem per explorar el nostre dataset és crear una funció per saber si hi ha valors NA o infinits. Com veiem, el assay conte 3351 valors NA mentres que la RowData conté 2244. Aquest últim cas no ens importa ja que sabem que es tracta de les features que no eren metabòlits i que per tant no tenien valors assignats en el aa_info quan els vam ajuntar. En canvi la falta del 12% de totes les dades del dataset si que és una mica problemàtic. Anem a comprovar quantes "features" tenen totes les dades:
+
+```{r}
+# Creem un dataset que inclogui el assay i a més le nom sense timepoint de cada feature
+df_assay_feature <- as.data.frame(assay(se)) %>%
+  tibble::rownames_to_column("RowID") %>%
+  mutate(Feature = rowData(se)$feature)
+
+# Creem un altre dataset on hem inclós un valor true o false en funció de si la row te un missing value o no
+df_assay_feature_NA <- df_assay_feature %>%
+  mutate(has_missing = apply(select(., -RowID, -Feature), 1, function(x) any(!is.finite(x))))
+
+# Ara ajuntem tots els features iguals, independentment del timepoint, si en cap cas tenien un missing value, es mante el TRUE 
+df_assay_feature_NA <- df_assay_feature_NA %>%
+  group_by(Feature) %>%
+  summarise(all_rows_good = all(!has_missing))
+
+# Mostrem el numero de features no tenen cap missing value
+sum(df_assay_feature_NA$all_rows_good)
+```
+
+Com veiem cap de les features te totes les dades complertes. Això ens pot donar problemes a l'hora de tractar aquest dataset ja que molts anàlisis no poden treballar amb "missing values", només amb valors numérics. Per aquest motiu afegirem un nou metada al se, anomenat "Warning" que avisara que aquestes dades contenen un gran número de missing values:
+
+```{r Warning metadata}
+metadata(se)$warnings <- c(
+  metadata(se)$warnings,
+  " Assay matrix contains missing values (approx. 12%). No feature is fully complete. Use NA-aware methods."
+)
+```
+
+De moment sabem que aquest dataset conté dades sobre la expressió de diferents metabòlits i dades clíniques de 39 pacients. A més, sabem que aquestes dades es van pendre en 4 moments diferents (T0, T2, T4 i T5). També, com posa a la descripció de, aquests pacients va patir una cirurjia bariàtrica. Podem deduir doncs que els investigadors volen estudiar patrons sobre com varien diferents valors corporals en funció del temps i de l'individu al llarg del temps desprès d'una intervenció concreta (en aquest cas, la cirurgia bariàtrica). Per fer una exploració inicial de les dades penso que pot ser interessant estudiar la variació dels diferents metabòlits en funció del temps i dels pacients.
+
+```{r test significant variations due to subject or time}
+# Creem df gran amb el id dels pacients, els diferents features i els seus valors i timepoints 
+df_subject_feature_value_timepoint <- assay(se) %>%
+  as.data.frame() %>%
+  rownames_to_column("feature_id") %>%
+  pivot_longer(-feature_id, names_to = "Subject", values_to = "Value") %>%
+  left_join(
+    rowData(se) %>%
+      as.data.frame() %>%
+      select(timepoint, feature) %>%
+      tibble::rownames_to_column("feature_id"),
+    by = "feature_id"
+  )
+# Fem el ANOVA per veure com influeixen els pacients sobre la variació en els metabòlits
+ANOVA_subject <- df_subject_feature_value_timepoint %>%
+  group_split(feature) %>%
+  map_dfr(function(df) {
+    feat <- unique(df$feature)
+    if (length(unique(df$Subject)) > 1) {
+      p <- tryCatch({
+        summary(aov(Value ~ Subject, data = df))[[1]][["Pr(>F)"]][1]
+      }, error = function(e) NA)
+    } else {
+      p <- NA
+    }
+    tibble(feature = feat, p_value = p)
+  })
+# Fem el ANOVA per veure com influeixe el temps sobre la variació en els metabòlits
+ANOVA_timepoints <- df_subject_feature_value_timepoint %>%
+  group_split(feature) %>%
+  map_dfr(function(df) {
+    feat <- unique(df$feature)
+    if (length(unique(df$timepoint)) > 1) {
+      p <- tryCatch({
+        summary(aov(Value ~ timepoint, data = df))[[1]][["Pr(>F)"]][1]
+      }, error = function(e) NA)
+    } else {
+      p <- NA
+    }
+    tibble(feature = feat, p_value = p)
+  })
+# Filtrem i mostrem el resultat del número de features que tenen variació significativa en funció dels pacients
+significant_subject <- ANOVA_subject %>%
+  filter(!is.na(p_value) & p_value < 0.05) %>%
+  arrange(p_value)
+cat("Number of features with significant variation amongst subjects, independent to time:", length(significant_subject$feature), "\n")
+# Filtrem i mostrem el resultat del número de features que tenen variació significativa en funció dels timepoints
+significant_timepoint <- ANOVA_timepoints %>%
+  filter(!is.na(p_value) & p_value < 0.05) %>%
+  arrange(p_value)
+cat("Number of features with significant variation amongst timepoints, independent to the subjects:", length(significant_timepoint$feature), "\n")
+```
+
+Ara sabem que dels 172-173 metabòlits, només 133 són útils per explicar variacions en funció dels pacients i 81 en funció del temps. Si volguessim centrar-nos concretament en un d'aquests casos podria ser interessant agafar els metabòlits que tenen diferències significatives per una de les variables però no per l'altre. Per exemple, observem quins metabòlits varien de forma significativa en funció del temps però no dels pacients:
+
+```{r}
+time_only_features <- setdiff(significant_timepoint$feature, significant_subject$feature)
+time_only_features
+```
+
+Ara podem fer un plot d'aquests metabòlits (que serà molt més entenedor que fer un plot dels 173, per això em filtrat) i veure com varien en funció del temps. Per fer-ho, però hem d'igualar les diferents concentracions, ja que els metabòlits s'expressen amb diferents graus de magnitud. A més, per fer-ho més entenedor, podem veure la variació suposant que en el T0 la expressió era 0. Així només veiem com a partir d'aquesta "expressió inicial", que és igual per tothom, van variant al llarg del temps:
+
+```{r}
+# ens quedem  només amb les features (sense timpeoint associat) del llistat que em mencionat
+keep_rows <- rowData(se)$feature %in% time_only_features
+
+# creem un df amb aquestes features i els seus valors associats
+significant_features <- assay(se)[keep_rows, ]
+significant_features_scaled <- t(scale(t(expr))) # escalem els valors per igualar diferents magnituds
+
+# Afegim els timepoints de cada feature
+df_significant_features_tiempoint <- as.data.frame(significant_features_scaled) %>%
+  tibble::rownames_to_column("RowID") %>%
+  pivot_longer(-RowID, names_to = "Sample", values_to = "Expression") %>%
+  mutate(
+    Timepoint = rowData(se)$timepoint[match(RowID, rownames(se))],
+    Feature = rowData(se)$feature[match(RowID, rownames(se))]
+  )  # Add proper feature names
+
+# Centrem la variació al voltant del valor incial de T0 igualant a 0
+df_significant_features_tiempoint_centered <- df_significant_features_tiempoint %>%
+  group_by(Feature, Sample) %>%
+  mutate(Expression = Expression - Expression[Timepoint == "T0"])
+
+# Fem el plot
+ggplot(df_significant_features_tiempoint_centered, aes(x = Timepoint, y = Expression, group = Feature, color = Feature)) +
+  stat_summary(fun = mean, geom = "line", size = 1) +
+  labs(x = "Timepoint", y = "Mean Expression", title = "Timepoint-driven feature variation") +
+  theme_minimal()
+```
+
+Amb això ja tenim resultats que es poden interpretar desde punts de vista biològics. També podem fer el mateix pels metabòlits que varien de forma significativa en funció del pacient però no del temps:
+
+```{r}
+# 1. Seleccionem les features significatives que varien entre pacients però no pel temps
+subject_only_features <- setdiff(significant_subject$feature, significant_timepoint$feature)
+
+# 2. Ens quedem amb les files del SE que compleixin això
+keep_rows_subject <- rowData(se)$feature %in% subject_only_features
+subject_features <- assay(se)[keep_rows_subject, ]
+
+# 3. Afegim la info de timepoint i feature
+df_subject_features <- as.data.frame(subject_features) %>%
+  tibble::rownames_to_column("RowID") %>%
+  pivot_longer(-RowID, names_to = "Subject", values_to = "Expression") %>%
+  mutate(
+    Timepoint = rowData(se)$timepoint[match(RowID, rownames(se))],
+    Feature = rowData(se)$feature[match(RowID, rownames(se))]
+  )
+
+# 4. Calculem la mitjana d’expressió per feature i pacient (ignorem el timepoint)
+df_subject_features_avg <- df_subject_features %>%
+  group_by(Feature, Subject) %>%
+  summarise(Mean_Expression = mean(Expression, na.rm = TRUE), .groups = "drop")
+
+# Top 6 més variables entre pacients
+top_features <- df_subject_features_avg %>%
+  group_by(Feature) %>%
+  summarise(sd = sd(Mean_Expression, na.rm = TRUE)) %>%
+  slice_max(sd, n = 20) %>%
+  pull(Feature)
+
+df_top <- df_subject_features_avg %>% filter(Feature %in% top_features)
+
+ggplot(df_top, aes(x = Subject, y = Mean_Expression)) +
+  geom_boxplot() +
+  facet_wrap(~Feature, scales = "free_y") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+Aquí hem inclós només els 20 features amb la variació més marcada ja que els 73 plots són masses per l'informe. 
+
+## 5. Interpretació dels resultats desde el punt de vista biològic
+
+A la exploració de les dades hem acabat creant dos plots. Un mostra la variació d'alguns metabòlits en funció del temps mentres que l'altre la variació d'altres metabòlits en funció dels pacients. 
+
+#### Variació dels metabòlits en funció del temps
+
+El primer gràfic mostra un patró temporal clar en el comportament de diversos metabòlits després de la cirurgia bariàtrica. En concret, alguns metabòlits presenten una resposta bifàsica caracteritzada per un augment (o descens) inicial poc després de la cirurgia (normalment en el temps T2), seguit d’un descens (o ascens) pronunciat en punts posteriors (T4 o T5), sovint per sota dels nivells basals. Aquest perfil de “muntanya o vall” pot reflectir una combinació entre l’estrès metabòlic agut i una adaptació fisiològica a llarg termini. En la fase postoperatòria immediata, els nivells elevats de metabòlits podrien atribuir-se a una intensificació de la lipòlisi i la proteòlisi, mentre el cos entra en un estat catabòlic com a resposta a l’estrès quirúrgic i a la restricció calòrica. Els aminoàcids i els derivats lipídics poden augmentar com a resultat de la degradació tissular i les noves demandes energètiques. No obstant això, el descens posterior observat en molts d’aquests metabòlits suggereix l’activació de mecanismes reguladors compensatoris. El mateix succeix en el sentit contrari: alguns elements són degradats coma a resposta a l'estrés per després augmentar degut a la compensació. A mesura que l’organisme es reorganitza metabòlicament, una millor sensibilitat a la insulina i els canvis dietètics poden suprimir la producció endògena de certs metabòlits o afavorir-ne la seva eliminació. Aquest comportament bifàsic ha estat àmpliament descrit en estudis metabolòmics de cirurgia bariàtrica, on els aminoàcids, els àcids grassos i altres intermediaris metabòlics sovint mostren pertorbacions inicials seguides d’una normalització o, fins i tot, una supressió per sota dels nivells previs a la intervenció (Wang, Ma, & Zhang, 2021)^2^. 
+
+#### Variació dels metabòlits en funció dels pacients
+
+El segon gràfic mostra la variació de 20 metabòlits en funció dels pacients. La variabilitat observada probablement reflecteix diferències biològiques i fisiològiques entre individus, com ara factors genètics, regulació hormonal, condicions metabòliques prèvies o diferències en la composició del microbioma intestinal. És especialment rellevant que aquesta variació entre pacients es mantingui fins i tot quan no hi ha una tendència clara al llarg del temps, suggerint que aquests metabòlits estan més influenciats per característiques intrínseques de cada pacient que no pas per la pròpia intervenció quirúrgica. Estudis previs han demostrat que l'èxit en la pèrdua de pes i les millores metabòliques després de la cirurgia bariàtrica varien considerablement entre individus, i l’ús de perfils metabolòmics pot ajudar a identificar biomarcadors associats amb millors o pitjors resultats (Heffron & Ali, 2023)^3^. Podria ser interessant, de cara al futur, intentar trobar patrons entre les diferencies d'expressió dels pacients en funció del temps, ja que ens podria donar diferencies en el metabolisme, ajudant-nos a crear millors perfils pels pacients.
+
+## Repositori de Github 
+
+
+
+# Referències
+
+1. Kassambara, A. (n.d.). ExpressionSet and SummarizedExperiment. STHDA: Statistical Tools for High-throughput Data Analysis. Retrieved March 31, 2025, from https://www.sthda.com/english/wiki/expressionset-and-summarizedexperiment
+
+2. Wang, Y., Ma, Z., & Zhang, S. (2021). Metabolomic signatures of bariatric surgery: A systematic review. Current Obesity Reports, 10, 264–278.
+
+3. Heffron, S. P., & Ali, A. (2023). Genetic variants associated with weight loss and metabolic outcomes after bariatric surgery: A systematic review. Obesity Reviews, 24(1), e13626.
+
+

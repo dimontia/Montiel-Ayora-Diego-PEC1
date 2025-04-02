@@ -1,0 +1,189 @@
+"","Class","Metabolite.abbreviation","Metabolite","Platform","Data.type","X"
+"1","aminoacids","Ala","Alanine","LC-MS/MS","Quantified",NA
+"2","aminoacids","Arg","Arginine","LC-MS/MS","Quantified",NA
+"3","aminoacids","Asn","Asparagine","LC-MS/MS","Quantified",NA
+"4","aminoacids","Asp","Aspartate","LC-MS/MS","Quantified",NA
+"5","aminoacids","Cit","Citrulline","LC-MS/MS","Quantified",NA
+"6","aminoacids","Gln","Glutamine","LC-MS/MS","Quantified",NA
+"7","aminoacids","Glu","Glutamate","LC-MS/MS","Quantified",NA
+"8","aminoacids","Gly","Glycine","LC-MS/MS","Quantified",NA
+"9","aminoacids","His","Histidine","LC-MS/MS","Quantified",NA
+"10","aminoacids","Ile","Isoleucine","LC-MS/MS","Quantified",NA
+"11","aminoacids","Leu","Leucine","LC-MS/MS","Quantified",NA
+"12","aminoacids","Lys","Lysine","LC-MS/MS","Quantified",NA
+"13","aminoacids","Met","Methionine","LC-MS/MS","Quantified",NA
+"14","aminoacids","Orn","Ornitine","LC-MS/MS","Quantified",NA
+"15","aminoacids","Phe","Phenylalanine","LC-MS/MS","Quantified",NA
+"16","aminoacids","Pro","Proline","LC-MS/MS","Quantified",NA
+"17","aminoacids","Ser","Serine","LC-MS/MS","Quantified",NA
+"18","aminoacids","Thr","Threonine","LC-MS/MS","Quantified",NA
+"19","aminoacids","Trp","Tryptophan","LC-MS/MS","Quantified",NA
+"20","aminoacids","Tyr","Tyrosine","LC-MS/MS","Quantified",NA
+"21","aminoacids","Val","Valine","LC-MS/MS","Quantified",NA
+"22","biogenic amines","Ac-Orn","Acetylornithine","LC-MS/MS","< LOD",NA
+"23","biogenic amines","ADMA","Asymmetric dimethylarginine","LC-MS/MS","< LOD",NA
+"24","biogenic amines","alpha-AAA","alpha-Aminoadipic acid","LC-MS/MS","< LOD",NA
+"25","biogenic amines","c4-OH-Pro","cis-4-Hydroxyproline","LC-MS/MS","< LOD",NA
+"26","biogenic amines","Carnosine","Carnosine","LC-MS/MS","< LOD",NA
+"27","biogenic amines","Creatinine","Creatinine","LC-MS/MS","Quantified",NA
+"28","biogenic amines","DOPA","DOPA","LC-MS/MS","< LLOQ",NA
+"29","biogenic amines","Dopamine","Dopamine","LC-MS/MS","< LLOQ",NA
+"30","biogenic amines","Histamine","Histamine","LC-MS/MS","< LLOQ",NA
+"31","biogenic amines","Kynurenine","Kynurenine","LC-MS/MS","Quantified",NA
+"32","biogenic amines","Met-SO","Methioninesulfoxide","LC-MS/MS","< LOD",NA
+"33","biogenic amines","Nitro-Tyr","Nitrotyrosine","LC-MS/MS","< LOD",NA
+"34","biogenic amines","PEA","Phenylethylamine","LC-MS/MS","< LOD",NA
+"35","biogenic amines","Putrescine","Putrescine","LC-MS/MS","Quantified",NA
+"36","biogenic amines","Sarcosine","Sarcosine","LC-MS/MS","Quantified",NA
+"37","biogenic amines","Serotonin","Serotonin","LC-MS/MS","Quantified",NA
+"38","biogenic amines","Spermidine","Spermidine","LC-MS/MS","< LLOQ",NA
+"39","biogenic amines","Spermine","Spermine","LC-MS/MS","QC-CV>25%",NA
+"40","biogenic amines","t4-OH-Pro","trans-4-Hydroxyproline","LC-MS/MS","< LLOQ",NA
+"41","biogenic amines","Taurine","Taurine","LC-MS/MS","Quantified",NA
+"42","biogenic amines","SDMA","Symmetric dimethylarginine","LC-MS/MS","Quantified",NA
+"43","acylcarnitines","C0","Carnitine","FIA-MS/MS","Quantified",NA
+"44","acylcarnitines","C2","Acetylcarnitine","FIA-MS/MS","Quantified",NA
+"45","acylcarnitines","C3","Propionylcarnitine","FIA-MS/MS","< LLOQ",NA
+"46","acylcarnitines","C3:1","Propenoylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"47","acylcarnitines","C3-OH","Hydroxypropionylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"48","acylcarnitines","C4","Butyrylcarnitine","FIA-MS/MS","< LLOQ",NA
+"49","acylcarnitines","C4:1","Butenylcarnitine","FIA-MS/MS","< LOD",NA
+"50","acylcarnitines","C4-OH (C3-DC)","Hydroxybutyrylcarnitine","FIA-MS/MS","< LOD",NA
+"51","acylcarnitines","C5","Valerylcarnitine","FIA-MS/MS","< LLOQ",NA
+"52","acylcarnitines","C5:1","Tiglylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"53","acylcarnitines","C5:1-DC","Glutaconylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"54","acylcarnitines","C5-DC (C6-OH)","Glutarylcarnitine* (Hydroxyhexanoylcarnitine)","FIA-MS/MS","Semi-quantified",NA
+"55","acylcarnitines","C5-M-DC","Methylglutarylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"56","acylcarnitines","C5-OH (C3-DC-M)","Hydroxyvalerylcarnitine (Methylmalonylcarnitine)","FIA-MS/MS","QC-CV>25%",NA
+"57","acylcarnitines","C6 (C4:1-DC)","Hexanoylcarnitine (Fumarylcarnitine)","FIA-MS/MS","Semi-quantified",NA
+"58","acylcarnitines","C6:1","Hexenoylcarnitine","FIA-MS/MS","< LOD",NA
+"59","acylcarnitines","C7-DC","Pimelylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"60","acylcarnitines","C8","Octanoylcarnitine","FIA-MS/MS","Quantified",NA
+"61","acylcarnitines","C9","Nonaylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"62","acylcarnitines","C10","Decanoylcarnitine","FIA-MS/MS","Quantified",NA
+"63","acylcarnitines","C10:1","Decenoylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"64","acylcarnitines","C10:2","Decadienylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"65","acylcarnitines","C12","Dodecanoylcarnitine","FIA-MS/MS","< LLOQ",NA
+"66","acylcarnitines","C12:1","Dodecenoylcarnitine","FIA-MS/MS","< LOD",NA
+"67","acylcarnitines","C12-DC","Dodecanedioylcarnitine","FIA-MS/MS","< LOD",NA
+"68","acylcarnitines","C14","Tetradecanoylcarnitine","FIA-MS/MS","< LLOQ",NA
+"69","acylcarnitines","C14:1","Tetradecenoylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"70","acylcarnitines","C14:1-OH","Hydroxytetradecenoylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"71","acylcarnitines","C14:2","Tetradecadienylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"72","acylcarnitines","C14:2-OH","Hydroxytetradecadienylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"73","acylcarnitines","C16","Hexadecanoylcarnitine","FIA-MS/MS","< LLOQ",NA
+"74","acylcarnitines","C16:1","Hexadecenoylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"75","acylcarnitines","C16:1-OH","Hydroxyhexadecenoylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"76","acylcarnitines","C16:2","Hexadecadienylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"77","acylcarnitines","C16:2-OH","Hydroxyhexadecadienylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"78","acylcarnitines","C16-OH","Hydroxyhexadecanoylcarnitine","FIA-MS/MS","QC-CV>25%",NA
+"79","acylcarnitines","C18","Octadecanoylcarnitine","FIA-MS/MS","< LLOQ",NA
+"80","acylcarnitines","C18:1","Octadecenoylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"81","acylcarnitines","C18:1-OH","Hydroxyoctadecenoylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"82","acylcarnitines","C18:2","Octadecadienylcarnitine","FIA-MS/MS","Semi-quantified",NA
+"83","glycerophospholipids","lysoPC a C14:0","lysoPC a C14:0","FIA-MS/MS","< LOD",NA
+"84","glycerophospholipids","lysoPC a C16:0","lysoPC a C16:0","FIA-MS/MS","Semi-quantified",NA
+"85","glycerophospholipids","lysoPC a C16:1","lysoPC a C16:1","FIA-MS/MS","Semi-quantified",NA
+"86","glycerophospholipids","lysoPC a C17:0","lysoPC a C17:0","FIA-MS/MS","Semi-quantified",NA
+"87","glycerophospholipids","lysoPC a C18:0","lysoPC a C18:0","FIA-MS/MS","Semi-quantified",NA
+"88","glycerophospholipids","lysoPC a C18:1","lysoPC a C18:1","FIA-MS/MS","Semi-quantified",NA
+"89","glycerophospholipids","lysoPC a C18:2","lysoPC a C18:2","FIA-MS/MS","Semi-quantified",NA
+"90","glycerophospholipids","lysoPC a C20:3","lysoPC a C20:3","FIA-MS/MS","Semi-quantified",NA
+"91","glycerophospholipids","lysoPC a C20:4","lysoPC a C20:4","FIA-MS/MS","Semi-quantified",NA
+"92","glycerophospholipids","lysoPC a C24:0","lysoPC a C24:0","FIA-MS/MS","Semi-quantified",NA
+"93","glycerophospholipids","lysoPC a C26:0","lysoPC a C26:0","FIA-MS/MS","Semi-quantified",NA
+"94","glycerophospholipids","lysoPC a C26:1","lysoPC a C26:1","FIA-MS/MS","Semi-quantified",NA
+"95","glycerophospholipids","lysoPC a C28:0","lysoPC a C28:0","FIA-MS/MS","Semi-quantified",NA
+"96","glycerophospholipids","lysoPC a C28:1","lysoPC a C28:1","FIA-MS/MS","Semi-quantified",NA
+"97","glycerophospholipids","PC aa C24:0","PC aa C24:0","FIA-MS/MS","Semi-quantified",NA
+"98","glycerophospholipids","PC aa C26:0","PC aa C26:0","FIA-MS/MS","< LOD",NA
+"99","glycerophospholipids","PC aa C28:1","PC aa C28:1","FIA-MS/MS","Semi-quantified",NA
+"100","glycerophospholipids","PC aa C30:0","PC aa C30:0","FIA-MS/MS","Semi-quantified",NA
+"101","glycerophospholipids","PC aa C30:2","PC aa C30:2","FIA-MS/MS","< LOD",NA
+"102","glycerophospholipids","PC aa C32:0","PC aa C32:0","FIA-MS/MS","Semi-quantified",NA
+"103","glycerophospholipids","PC aa C32:1","PC aa C32:1","FIA-MS/MS","Semi-quantified",NA
+"104","glycerophospholipids","PC aa C32:2","PC aa C32:2","FIA-MS/MS","< LOD",NA
+"105","glycerophospholipids","PC aa C32:3","PC aa C32:3","FIA-MS/MS","Semi-quantified",NA
+"106","glycerophospholipids","PC aa C34:1","PC aa C34:1","FIA-MS/MS","Semi-quantified",NA
+"107","glycerophospholipids","PC aa C34:2","PC aa C34:2","FIA-MS/MS","Semi-quantified",NA
+"108","glycerophospholipids","PC aa C34:3","PC aa C34:3","FIA-MS/MS","Semi-quantified",NA
+"109","glycerophospholipids","PC aa C34:4","PC aa C34:4","FIA-MS/MS","Semi-quantified",NA
+"110","glycerophospholipids","PC aa C36:0","PC aa C36:0","FIA-MS/MS","Semi-quantified",NA
+"111","glycerophospholipids","PC aa C36:1","PC aa C36:1","FIA-MS/MS","Semi-quantified",NA
+"112","glycerophospholipids","PC aa C36:2","PC aa C36:2","FIA-MS/MS","Semi-quantified",NA
+"113","glycerophospholipids","PC aa C36:3","PC aa C36:3","FIA-MS/MS","Semi-quantified",NA
+"114","glycerophospholipids","PC aa C36:4","PC aa C36:4","FIA-MS/MS","Semi-quantified",NA
+"115","glycerophospholipids","PC aa C36:5","PC aa C36:5","FIA-MS/MS","Semi-quantified",NA
+"116","glycerophospholipids","PC aa C36:6","PC aa C36:6","FIA-MS/MS","QC-CV>25%",NA
+"117","glycerophospholipids","PC aa C38:0","PC aa C38:0","FIA-MS/MS","Semi-quantified",NA
+"118","glycerophospholipids","PC aa C38:1","PC aa C38:1","FIA-MS/MS","Semi-quantified",NA
+"119","glycerophospholipids","PC aa C38:3","PC aa C38:3","FIA-MS/MS","Semi-quantified",NA
+"120","glycerophospholipids","PC aa C38:4","PC aa C38:4","FIA-MS/MS","Semi-quantified",NA
+"121","glycerophospholipids","PC aa C38:5","PC aa C38:5","FIA-MS/MS","Semi-quantified",NA
+"122","glycerophospholipids","PC aa C38:6","PC aa C38:6","FIA-MS/MS","Semi-quantified",NA
+"123","glycerophospholipids","PC aa C40:1","PC aa C40:1","FIA-MS/MS","Semi-quantified",NA
+"124","glycerophospholipids","PC aa C40:2","PC aa C40:2","FIA-MS/MS","Semi-quantified",NA
+"125","glycerophospholipids","PC aa C40:3","PC aa C40:3","FIA-MS/MS","Semi-quantified",NA
+"126","glycerophospholipids","PC aa C40:4","PC aa C40:4","FIA-MS/MS","Semi-quantified",NA
+"127","glycerophospholipids","PC aa C40:5","PC aa C40:5","FIA-MS/MS","Semi-quantified",NA
+"128","glycerophospholipids","PC aa C40:6","PC aa C40:6","FIA-MS/MS","Semi-quantified",NA
+"129","glycerophospholipids","PC aa C42:0","PC aa C42:0","FIA-MS/MS","Semi-quantified",NA
+"130","glycerophospholipids","PC aa C42:1","PC aa C42:1","FIA-MS/MS","Semi-quantified",NA
+"131","glycerophospholipids","PC aa C42:2","PC aa C42:2","FIA-MS/MS","Semi-quantified",NA
+"132","glycerophospholipids","PC aa C42:4","PC aa C42:4","FIA-MS/MS","Semi-quantified",NA
+"133","glycerophospholipids","PC aa C42:5","PC aa C42:5","FIA-MS/MS","Semi-quantified",NA
+"134","glycerophospholipids","PC aa C42:6","PC aa C42:6","FIA-MS/MS","Semi-quantified",NA
+"135","glycerophospholipids","PC ae C30:0","PC ae C30:0","FIA-MS/MS","Semi-quantified",NA
+"136","glycerophospholipids","PC ae C30:1","PC ae C30:1","FIA-MS/MS","< LOD",NA
+"137","glycerophospholipids","PC ae C30:2","PC ae C30:2","FIA-MS/MS","< LOD",NA
+"138","glycerophospholipids","PC ae C32:1","PC ae C32:1","FIA-MS/MS","Semi-quantified",NA
+"139","glycerophospholipids","PC ae C32:2","PC ae C32:2","FIA-MS/MS","Semi-quantified",NA
+"140","glycerophospholipids","PC ae C34:0","PC ae C34:0","FIA-MS/MS","Semi-quantified",NA
+"141","glycerophospholipids","PC ae C34:1","PC ae C34:1","FIA-MS/MS","Semi-quantified",NA
+"142","glycerophospholipids","PC ae C34:2","PC ae C34:2","FIA-MS/MS","Semi-quantified",NA
+"143","glycerophospholipids","PC ae C34:3","PC ae C34:3","FIA-MS/MS","Semi-quantified",NA
+"144","glycerophospholipids","PC ae C36:0","PC ae C36:0","FIA-MS/MS","Semi-quantified",NA
+"145","glycerophospholipids","PC ae C36:1","PC ae C36:1","FIA-MS/MS","Semi-quantified",NA
+"146","glycerophospholipids","PC ae C36:2","PC ae C36:2","FIA-MS/MS","Semi-quantified",NA
+"147","glycerophospholipids","PC ae C36:3","PC ae C36:3","FIA-MS/MS","Semi-quantified",NA
+"148","glycerophospholipids","PC ae C36:4","PC ae C36:4","FIA-MS/MS","Semi-quantified",NA
+"149","glycerophospholipids","PC ae C36:5","PC ae C36:5","FIA-MS/MS","Semi-quantified",NA
+"150","glycerophospholipids","PC ae C38:0","PC ae C38:0","FIA-MS/MS","Semi-quantified",NA
+"151","glycerophospholipids","PC ae C38:1","PC ae C38:1","FIA-MS/MS","QC-CV>25%",NA
+"152","glycerophospholipids","PC ae C38:2","PC ae C38:2","FIA-MS/MS","Semi-quantified",NA
+"153","glycerophospholipids","PC ae C38:3","PC ae C38:3","FIA-MS/MS","Semi-quantified",NA
+"154","glycerophospholipids","PC ae C38:4","PC ae C38:4","FIA-MS/MS","Semi-quantified",NA
+"155","glycerophospholipids","PC ae C38:5","PC ae C38:5","FIA-MS/MS","Semi-quantified",NA
+"156","glycerophospholipids","PC ae C38:6","PC ae C38:6","FIA-MS/MS","Semi-quantified",NA
+"157","glycerophospholipids","PC ae C40:1","PC ae C40:1","FIA-MS/MS","Semi-quantified",NA
+"158","glycerophospholipids","PC ae C40:2","PC ae C40:2","FIA-MS/MS","Semi-quantified",NA
+"159","glycerophospholipids","PC ae C40:3","PC ae C40:3","FIA-MS/MS","Semi-quantified",NA
+"160","glycerophospholipids","PC ae C40:4","PC ae C40:4","FIA-MS/MS","Semi-quantified",NA
+"161","glycerophospholipids","PC ae C40:5","PC ae C40:5","FIA-MS/MS","Semi-quantified",NA
+"162","glycerophospholipids","PC ae C40:6","PC ae C40:6","FIA-MS/MS","Semi-quantified",NA
+"163","glycerophospholipids","PC ae C42:0","PC ae C42:0","FIA-MS/MS","Semi-quantified",NA
+"164","glycerophospholipids","PC ae C42:1","PC ae C42:1","FIA-MS/MS","Semi-quantified",NA
+"165","glycerophospholipids","PC ae C42:2","PC ae C42:2","FIA-MS/MS","Semi-quantified",NA
+"166","glycerophospholipids","PC ae C42:3","PC ae C42:3","FIA-MS/MS","Semi-quantified",NA
+"167","glycerophospholipids","PC ae C42:4","PC ae C42:4","FIA-MS/MS","Semi-quantified",NA
+"168","glycerophospholipids","PC ae C42:5","PC ae C42:5","FIA-MS/MS","Semi-quantified",NA
+"169","glycerophospholipids","PC ae C44:3","PC ae C44:3","FIA-MS/MS","Semi-quantified",NA
+"170","glycerophospholipids","PC ae C44:4","PC ae C44:4","FIA-MS/MS","Semi-quantified",NA
+"171","glycerophospholipids","PC ae C44:5","PC ae C44:5","FIA-MS/MS","Semi-quantified",NA
+"172","glycerophospholipids","PC ae C44:6","PC ae C44:6","FIA-MS/MS","Semi-quantified",NA
+"173","sphingolipids","SM (OH) C14:1","SM (OH) C14:1","FIA-MS/MS","Semi-quantified",NA
+"174","sphingolipids","SM (OH) C16:1","SM (OH) C16:1","FIA-MS/MS","Semi-quantified",NA
+"175","sphingolipids","SM (OH) C22:1","SM (OH) C22:1","FIA-MS/MS","Semi-quantified",NA
+"176","sphingolipids","SM (OH) C22:2","SM (OH) C22:2","FIA-MS/MS","Semi-quantified",NA
+"177","sphingolipids","SM (OH) C24:1","SM (OH) C24:1","FIA-MS/MS","Semi-quantified",NA
+"178","sphingolipids","SM C16:0","SM C16:0","FIA-MS/MS","Semi-quantified",NA
+"179","sphingolipids","SM C16:1","SM C16:1","FIA-MS/MS","Semi-quantified",NA
+"180","sphingolipids","SM C18:0","SM C18:0","FIA-MS/MS","Semi-quantified",NA
+"181","sphingolipids","SM C18:1","SM C18:1","FIA-MS/MS","Semi-quantified",NA
+"182","sphingolipids","SM C20:2","SM C20:2","FIA-MS/MS","Semi-quantified",NA
+"183","sphingolipids","SM C22:3","SM C22:3","FIA-MS/MS","< LOD",NA
+"184","sphingolipids","SM C24:0","SM C24:0","FIA-MS/MS","Semi-quantified",NA
+"185","sphingolipids","SM C24:1","SM C24:1","FIA-MS/MS","Semi-quantified",NA
+"186","sphingolipids","SM C26:0","SM C26:0","FIA-MS/MS","QC-CV>25%",NA
+"187","sphingolipids","SM C26:1","SM C26:1","FIA-MS/MS","QC-CV>25%",NA
+"188","sugars","H1","hexose","FIA-MS/MS","< LOD",NA
