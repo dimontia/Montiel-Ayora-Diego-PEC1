@@ -226,7 +226,7 @@ keep_rows <- rowData(se)$feature %in% time_only_features
 
 # creem un df amb aquestes features i els seus valors associats
 significant_features <- assay(se)[keep_rows, ]
-significant_features_scaled <- t(scale(t(expr))) # escalem els valors per igualar diferents magnituds
+significant_features_scaled <- t(scale(t(significant_features))) # escalem els valors per igualar diferents magnituds
 
 # Afegim els timepoints de cada feature
 df_significant_features_tiempoint <- as.data.frame(significant_features_scaled) %>%
@@ -305,7 +305,7 @@ El segon gràfic mostra la variació de 20 metabòlits en funció dels pacients.
 
 ## Repositori de Github 
 
-
+https://github.com/dimontia/Montiel-Ayora-Diego-PEC1
 
 # Referències
 
